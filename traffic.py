@@ -1,14 +1,15 @@
+#importing required libraries
 import tkinter as tk
 import RPi.GPIO as GPIO
 
-# GPIO pins for LEDs
+# Pin numbers for LED'S
 LED_PINS = {
-    "Red": 17,    # Replace with your GPIO pin numbers
+    "Red": 17,    
     "Green": 18,
     "Blue": 27,
 }
 
-# Initialize GPIO
+# Initializing GPIO
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
@@ -16,36 +17,35 @@ for pin in LED_PINS.values():
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.LOW)
 
-# Function to set the LED color
+# setting the color of the LED's
 def set_led_color(color):
     for pin in LED_PINS.values():
-        GPIO.output(pin, GPIO.LOW)  # Turn off all LEDs
-    GPIO.output(LED_PINS[color], GPIO.HIGH)  # Turn on the selected LED
+        GPIO.output(pin, GPIO.LOW)  
+    GPIO.output(LED_PINS[color], GPIO.HIGH)  
 
-# Create the main window
+#creating the window
 root = tk.Tk()
 root.title("LED Controller")
-root.geometry("400x300")  # Set window size
+root.geometry("300x200")  
 
-# Create a label
-label = tk.Label(root, text="Select LED Color", font=("Comic Sans", 20))
+# Creating the label
+label = tk.Label(root, text="Select the color of LED: ", font=("Arial", 20))
 label.pack(pady=20)
 
-# Function to handle button clicks
+# handling buttons
 def button_click(color):
     set_led_color(color)
 
-# Create buttons for each LED color
+# loop for each color led light
 for color in LED_PINS.keys():
     button = tk.Button(root, text=color, command=lambda c=color: button_click(c))
     button.pack(pady=15)
 
-# Create an exit button
-exit_button = tk.Button(root, text="Exit", command=root.quit)
+#exiting 
+exit_button = tk.Button(root, text="Exiting", command=root.quit)
 exit_button.pack(pady=10)
 
-# Start the GUI main loop
 root.mainloop()
 
-# Cleanup GPIO on program exit
+# cleang the GPIO after the program ends
 GPIO.cleanup()
